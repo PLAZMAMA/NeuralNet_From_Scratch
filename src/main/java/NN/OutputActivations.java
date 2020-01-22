@@ -1,9 +1,6 @@
 package NN;
 
 interface OutputActivations{
-    public static double[] activate(double[] x){
-        System.out.println("has not been overrided from the OutputActivaions interface, hence it will return {0.0}");
-        double[] def = {0.0};
-        return(def);
+    public double[] activate(double[] x);
     }
 }
