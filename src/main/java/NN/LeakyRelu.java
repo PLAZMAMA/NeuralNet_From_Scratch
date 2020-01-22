@@ -1,15 +1,15 @@
 package NN;
+import java.lang.Double;
 
-public class LeakyRelu implements DenseActivations{
-
+public class LeakyRelu implements Activations<Double>{
     
     //method for the leaky relu function
     @Override
-    public double activate(double x){
+    public Double activate(Double x){
         if (x < 0.0){
-            return(0.01 * x);
-        }else{
-            return(x);
+        double temp = x.doubleValue();
+        x = new Double(0.01 * temp);
         }
+        return(x);
     }
 }
