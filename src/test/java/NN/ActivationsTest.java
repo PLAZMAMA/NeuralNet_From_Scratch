@@ -7,9 +7,8 @@ import org.junit.Test;
 
 import NN.Activations;
 
-/*
-* this class tests the Activations class methods
-*/
+
+//this class tests the all the classes that implement the Activations interface
 public class ActivationsTest{
 
     @Test
