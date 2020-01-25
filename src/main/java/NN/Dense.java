@@ -28,16 +28,16 @@ public class Dense extends Layers{
     @Override
     public void calculate_nodes(double[] last_layer_vals, double[][] weights){
         double sum;
-        for(int columb = 0; columb < weights[0].length; columb++){
+        for(int column = 0; column < weights[0].length; column++){
 
             //gets the sum of the last layer's nodes vals times the corresponding/connected weights
             sum = 0.0;
             for(int row = 0; row < weights.length; row++){
-                sum += last_layer_vals[row] * weights[row][columb];
+                sum += last_layer_vals[row] * weights[row][column];
             }
 
             //adds the bias to the sum, puts in through the given(in the constructor) activation function and stores it in this.nodes
-            this.nodes[columb] = this.activation.activate(sum + this.bias);
+            this.nodes[column] = this.activation.activate(sum + this.bias);
         }
     }
 
