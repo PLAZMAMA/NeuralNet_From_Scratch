@@ -12,7 +12,7 @@ public class Dense extends Layers{
 
     
     //constructor for the Dense class
-    Dense(int n_nodes, Activations<Double> activation){
+    Dense(Activations<Double> activation,  int n_nodes){
         this.nodes = new double[n_nodes];
         this.bias = 0.0;
         this.activation = activation;
@@ -25,11 +25,12 @@ public class Dense extends Layers{
     it sums up all the given weights and biases, then adds the bias, lastly it puts it through the activation function .
     the function cahnges this.nodes to the nodes with the activation function added
     */
+    @Override
     public void calculate_nodes(double[] last_layer_vals, double[][] weights){
         double sum;
         for(int columb = 0; columb < weights[0].length; columb++){
 
-            //gets the sum of the last layer's nodes vals times the corresponding/connected weight
+            //gets the sum of the last layer's nodes vals times the corresponding/connected weights
             sum = 0.0;
             for(int row = 0; row < weights.length; row++){
                 sum += last_layer_vals[row] * weights[row][columb];
