@@ -2,10 +2,6 @@ package NN;
 
 import static org.junit.Assert.assertArrayEquals;
 
-import java.lang.ref.SoftReference;
-
-import javax.annotation.Tainted;
-
 import org.junit.Before;
 import org.junit.Test;
 
