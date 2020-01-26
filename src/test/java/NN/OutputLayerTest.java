@@ -19,7 +19,7 @@ public class OutputLayerTest{
     }
 
     @Test
-    public void test_create_nodes(){
+    public void test_calculatte_nodes(){
         double[] last_layer_vals = {0.4, 0.9, 0.2, 0.5, 0.8};
         double[][] weights = {{0.1, 0.5, 0.6}, {0.5, 0.9, 0.7}, {-1.2, -1.0, -0.9}, {1.0, -0.9, -0.6}, {0.8, -0.8, 1.3}};
         double[] expected = {0.44862003225352, 0.084451404658485, 0.466928563088};
