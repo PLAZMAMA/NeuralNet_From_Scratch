@@ -21,7 +21,7 @@ public class DenseTest{
     @Before
     public void init(){
         Sigmoid sig = new Sigmoid();
-        this.dense = new Dense(5, sig);
+        this.dense = new Dense(sig, 5);
     }
 
     @Test
