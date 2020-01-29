@@ -9,13 +9,12 @@ public class Dense extends Layers{
     double[] nodes;
     Activations<Double> activation;
     
-
-    
     //constructor for the Dense class
     Dense(Activations<Double> activation,  int n_nodes){
         this.nodes = new double[n_nodes];
         this.bias = 0.0;
         this.activation = activation;
+        this.type = "Dense";
 
 
     }
