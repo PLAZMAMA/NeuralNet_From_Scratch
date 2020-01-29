@@ -14,33 +14,33 @@ public class ActivationsTest{
     @Test
     public void test_sigmoid(){
         Activations<Double> act = (Activations<Double>)new Sigmoid();
-        assertEquals(0.9933071491, act.activate(5.0), 0.00001);
-        assertEquals(0.006692850924, act.activate(-5.0), 0.00001);
-        assertEquals(0.5, act.activate(0.0), 0.00001);
+        assertEquals("test 1 of failed", 0.9933071491, act.activate(5.0), 0.00001);
+        assertEquals("test 2 of failed", 0.006692850924, act.activate(-5.0), 0.00001);
+        assertEquals("test 3 of failed", 0.5, act.activate(0.0), 0.00001);
     }
 
     @Test
     public void test_tanh(){
         Activations<Double> act = (Activations<Double>)new Tanh();
-        assertEquals(0.9999092043, act.activate(5.0), 0.00001);
-        assertEquals(-0.9999092043, act.activate(-5.0), 0.00001);
-        assertEquals(0.0, act.activate(0.0), 0.00001);
+        assertEquals("test 1 failed", 0.9999092043, act.activate(5.0), 0.00001);
+        assertEquals("test 2 failed", -0.9999092043, act.activate(-5.0), 0.00001);
+        assertEquals("test 3 of failed", 0.0, act.activate(0.0), 0.00001);
     }
 
     @Test
     public void test_relu(){
         Activations<Double> act = (Activations<Double>)new Relu();
-        assertEquals(5.0, act.activate(5.0), 0.00001);
-        assertEquals(0.0, act.activate(-5.0), 0.00001);
-        assertEquals(0.0, act.activate(0.0), 0.00001);
+        assertEquals("test 1 failed", 5.0, act.activate(5.0), 0.00001);
+        assertEquals("test 2 failed", 0.0, act.activate(-5.0), 0.00001);
+        assertEquals("test 3 failed", 0.0, act.activate(0.0), 0.00001);
     }
 
     @Test
     public void test_leaky_relu(){
         Activations<Double> act = (Activations<Double>)new LeakyRelu();
-        assertEquals(5.0, act.activate(5.0), 0.00001);
-        assertEquals(-0.05, act.activate(-5.0), 0.00001);
-        assertEquals(0, act.activate(0.0), 0.00001);
+        assertEquals("test 1 failed", 5.0, act.activate(5.0), 0.00001);
+        assertEquals("test 2 failed", -0.05, act.activate(-5.0), 0.00001);
+        assertEquals("test 3 failed", 0, act.activate(0.0), 0.00001);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ActivationsTest{
             actual[i] = temp[i].doubleValue();
         }
 
-        assertArrayEquals(expected, actual, 0.00001);
+        assertArrayEquals("the softmax function does not work as intended", expected, actual, 0.00001);
     }
 
 
