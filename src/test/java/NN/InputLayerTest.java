@@ -1,5 +1,6 @@
 package NN;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -21,6 +22,12 @@ public class InputLayerTest{
     public void test_type(){
         String expected = "Input";
         assertTrue("type is not correct", this.input.type.equals(expected));
+    }
+
+    @Test
+    public void test_constructor(){
+        double[] expected = {1.0, 3.0, 0.8, 0.3, 0.6};
+        assertArrayEquals("the initialization of the nodes in the constructor is incorrect", expected, this.input.nodes, 0.00001);
     }
 
 }
