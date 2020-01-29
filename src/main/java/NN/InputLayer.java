@@ -4,9 +4,9 @@ public class InputLayer extends Layers{
     //instance variables
     double[] nodes;
 
-    InputLayer(double[] input, int n_nodes){
-        this.nodes = new double[n_nodes];
-        for(int i = 0; i < n_nodes; i++){
+    InputLayer(double[] input){
+        this.nodes = new double[input.length];
+        for(int i = 0; i < input.length; i++){
             this.nodes[i] = input[i];
         }
         this.type = "Input";
