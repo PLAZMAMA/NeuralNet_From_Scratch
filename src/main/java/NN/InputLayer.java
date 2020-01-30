@@ -18,7 +18,7 @@ public class InputLayer extends Layers{
     }
 
     //this method doesn't do anything since the input layer is just the data.
-    public void calculate_nodes(double[] last_layer_vals, double[][] weights){
+    public void calculate_nodes(double[] last_layer_vals, Double[][] weights){
         System.out.println("this method doesn't do anything do to the input layer just being the input data shaped correctly which was done in the costructor");
     }
 }
