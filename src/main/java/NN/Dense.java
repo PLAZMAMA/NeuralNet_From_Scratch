@@ -25,7 +25,7 @@ public class Dense extends Layers{
     the function cahnges this.nodes to the nodes with the activation function added
     */
     @Override
-    public void calculate_nodes(double[] last_layer_vals, double[][] weights){
+    public void calculate_nodes(double[] last_layer_vals, Double[][] weights){
         double sum;
         for(int column = 0; column < weights[0].length; column++){
 
