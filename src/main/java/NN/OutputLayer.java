@@ -19,7 +19,7 @@ public class OutputLayer extends Layers{
     }
 
     @Override
-    public void calculate_nodes(double[] last_layer_vals, double[][] weights){
+    public void calculate_nodes(double[] last_layer_vals, Double[][] weights){
         double sum;
         Double[] temp_nodes_vals = new Double[this.nodes.length];
         for(int column = 0; column < weights[0].length; column++){
