@@ -7,15 +7,14 @@ import java.lang.Double;
 public class OutputLayer extends Layers{
     //instance variables
     Activations<Double[]> activation;
-    double[] nodes;
 
 
 
     //constructor method for the outputlayer class
     OutputLayer(Activations<Double[]> activation, int n_nodes){
         this.activation = activation;
-        this.nodes = new double[n_nodes];
-        this.type = "Output";
+        super.nodes = new double[n_nodes];
+        super.type = "Output";
     }
 
     @Override
