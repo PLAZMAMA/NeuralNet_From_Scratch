@@ -6,15 +6,13 @@ package NN;
 *inputlayer(aka the data) as a Layers class/type.
 */
 public class InputLayer extends Layers{
-    //instance variables
-    double[] nodes;
 
     InputLayer(double[] input){
-        this.nodes = new double[input.length];
+        super.nodes = new double[input.length];
         for(int i = 0; i < input.length; i++){
-            this.nodes[i] = input[i];
+            super.nodes[i] = input[i];
         }
-        this.type = "Input";
+        super.type = "Input";
     }
 
     //this method doesn't do anything since the input layer is just the data.
