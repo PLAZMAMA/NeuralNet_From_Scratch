@@ -1,25 +1,51 @@
 package NN;
 
+import java.util.HashMap;
 import java.util.Random;
 import java.lang.Math;
+import java.lang.reflect.Array;
+
 
 public class Model{
     //instance variables
     Layers[] layers;
-    Random r = new Random();
+    HashMap<String,Double[][]> weights;
 
     Model(Layers... layers){
         this.layers = layers;
+        this.weights = new HashMap<>(this.layers.length);
+        Double[][] current_layer_weights;
+
+        //initializing all the weights
+        for(int i = 1; i < this.layers.length; i++){
+            current_layer_weights = create_weights(this.layers[i-1].nodes.length, this.layers[i].nodes.length);
+            this.weights.put("layer_" + i, current_layer_weights);
+        }
+        
     }
 
-    private double[][] create_weights(int last_layer_size, int current_layer_size){
-        double[][] weights = new double[current_layer_size][last_layer_size];
-        for(int row = 0; row < current_layer_size; row++){
-            for(int column = 0; column < last_layer_size; column++){
+    /*
+    *method that creates random weights given the last layer's size and the current one's.
+    *the random assignment of weights is done by getting a random value from a standart distribution
+    *and multiply it by the square root of 2 divided by the last layer size plus the current layer size
+    *to try to reduce the vanishing and exploding gradient problems.
+    */
+    public static Double[][] create_weights(int last_layer_size, int current_layer_size){
+        Random r = new Random();
+        Double[][] weights = new Double[last_layer_size][current_layer_size];
+        for(int row = 0; row < last_layer_size; row++){
+            for(int column = 0; column < current_layer_size; column++){
                 weights[row][column] = r.nextGaussian() * Math.sqrt(2.0 / last_layer_size + current_layer_size);
             }
         }
         return(weights);
+    }
+
+    //calculates each layer nodes based on the weights and the previous layer's nodes
+    public void calculate_nodes(){
+        for(int i = 1; i < this.layers.length; i++){
+            layers[i].calculate_nodes(this.layers[i-1].nodes, weights.get("layer_" + i));
+        }
     }
 
     public void feed_forward(){
