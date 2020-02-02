@@ -17,7 +17,6 @@ public class OutputLayer extends Layers{
         super.type = "Output";
     }
 
-    @Override
     public void calculate_nodes(double[] last_layer_vals, Double[][] weights){
         double sum;
         Double[] temp_nodes_vals = new Double[this.nodes.length];
