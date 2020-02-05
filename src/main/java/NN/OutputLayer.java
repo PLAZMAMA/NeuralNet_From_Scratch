@@ -34,7 +34,7 @@ public class OutputLayer extends Layers{
         //then the output of the activation function is stored in this.nodes/nodes by dumping the temp array into the 
         temp_nodes_vals = this.activation.activate(temp_nodes_vals);
         for(int i = 0; i < temp_nodes_vals.length; i++){
-            this.nodes[i] = temp_nodes_vals[i].doubleValue();
+            super.nodes[i] = temp_nodes_vals[i].doubleValue();
         }
     }
 
