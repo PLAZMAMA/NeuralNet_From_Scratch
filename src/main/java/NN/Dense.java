@@ -34,7 +34,7 @@ public class Dense extends Layers{
             }
 
             //adds the bias to the sum, puts in through the given(in the constructor) activation function and stores it in this.nodes
-            this.nodes[column] = this.activation.activate(sum + this.bias);
+            super.nodes[column] = this.activation.activate(sum + this.bias);
         }
     }
 
