@@ -16,7 +16,14 @@ public class Model{
         this.weights = new HashMap<>(this.layers.length);
         Double[][] current_layer_weights;
 
-        //initializing all the weights
+        /*
+        initializing all the weights
+        the hashmap of the weights will look like so:
+        {
+        layer_(number of the layer, the first aka input is 0, the second is 1 and so on):
+        the weights that connect the layer before the corresponding to the corresponding layer, ...
+        }
+        */
         for(int i = 1; i < this.layers.length; i++){
             current_layer_weights = create_weights(this.layers[i-1].nodes.length, this.layers[i].nodes.length);
             this.weights.put("layer_" + i, current_layer_weights);
@@ -41,15 +48,11 @@ public class Model{
         return(weights);
     }
 
-    //calculates each layer nodes based on the weights and the previous layer's nodes
-    public void calculate_nodes(){
+    //calculates each layer's (beside the input layer since it just the data technically) nodes in sequetial order from the first (not counting the input) to the output
+    public void feed_forward(){
         for(int i = 1; i < this.layers.length; i++){
             layers[i].calculate_nodes(this.layers[i-1].nodes, weights.get("layer_" + i));
         }
-    }
-
-    public void feed_forward(){
-
     }
 
     public void back_propagate(){
