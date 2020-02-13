@@ -16,4 +16,19 @@ public class LeakyRelu implements Activations<Double>{
         }
         return(x);
     }
+    
+    //method for the derivative of the leaky relu function
+    public Double deriv_activate(Double x){
+        /*
+        if x is bigger than 0 then it returns 1, if x is smaller than 0 it returns 0.01.
+        However if x is 0 it is not clear what should be return so I decided on returning a half(0.5)
+        */
+        if(x > 0.0){
+            return(1.0);
+        }else if(x < 0.0){
+            return(0.01);
+        }else{
+            return(0.5);
+        }
+    }
 }
