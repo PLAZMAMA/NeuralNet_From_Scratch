@@ -16,4 +16,9 @@ public class Tanh implements Activations<Double>{
         */
         return(new Double((Math.exp(temp) - Math.exp(-temp)) / (Math.exp(temp) + Math.exp(-temp))));
     }
+
+    //method for the derivative of the tanh function
+    public Double deriv_activate(Double x){
+        return(1 - (Math.pow(Math.exp(x) - Math.exp(-x), 2) / Math.pow(Math.exp(x) + Math.exp(-x), 2)));
+    }
 }
