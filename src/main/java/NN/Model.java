@@ -3,7 +3,6 @@ package NN;
 import java.util.HashMap;
 import java.util.Random;
 import java.lang.Math;
-import java.lang.reflect.Array;
 
 
 public class Model{
