@@ -40,12 +40,12 @@ public class ModelTest{
         this.model = new Model(this.input, this.dense1, this.dense2, this.output);
         int[][] expected = {{5, 10}, {10, 5}, {5, 2}};
         int[][] actual = new int[3][2];
-        Double[][] weight;
+        Double[][] weights;
         System.out.println(this.model.layers.length);
         for(int i = 1; i < this.model.layers.length; i++){
-            weight = this.model.weights.get("layer_" + i);
-            actual[i - 1][0] = weight.length;
-            actual[i - 1][1] = weight[0].length;
+            weights = this.model.weights.get("layer_" + i);
+            actual[i - 1][0] = weights.length;
+            actual[i - 1][1] = weights[0].length;
         }
 
         for(int i = 0; i < actual.length; i++){
