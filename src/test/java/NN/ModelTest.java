@@ -41,7 +41,6 @@ public class ModelTest{
         int[][] expected = {{5, 10}, {10, 5}, {5, 2}};
         int[][] actual = new int[3][2];
         Double[][] weights;
-        System.out.println(this.model.layers.length);
         for(int i = 1; i < this.model.layers.length; i++){
             weights = this.model.weights.get("layer_" + i);
             actual[i - 1][0] = weights.length;
