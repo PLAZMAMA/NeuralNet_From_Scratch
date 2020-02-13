@@ -22,6 +22,7 @@ public class ModelTest{
     Dense dense2;
     OutputLayer output;
 
+    //removed the creation of the instance of the object model due to some tests not needing it(currently only one)
     @Before
     public void init(){
         double[] data = {4.5, 2.3, 1.9, 9.7, 8.4};
@@ -58,6 +59,12 @@ public class ModelTest{
         Double[][] output = Model.create_weights(3, 5);
         int[] actual = {output.length, output[0].length};
         assertArrayEquals("the size of the arrays is incorrect", expected, actual);
+    }
 
+    //just an integration test due to the function just beign calls to the layers functions
+    @Test
+    public void test_feed_forward(){
+        this.model = new Model(this.input, this.dense1, this.dense2, this.output);
+        this.model.feed_forward();
     }
 }
