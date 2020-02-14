@@ -5,13 +5,11 @@ import NN.Activations;
 //this class creates dense neural net layer
 public class Dense extends Layers{
     //instance variables
-    double bias;
     Activations<Double> activation;
     
     //constructor for the Dense class
     Dense(Activations<Double> activation,  int n_nodes){
         super.nodes = new double[n_nodes];
-        this.bias = 0.0;
         this.activation = activation;
         super.type = "Dense";
 
@@ -25,16 +23,16 @@ public class Dense extends Layers{
     */
     public void calculate_nodes(double[] last_layer_vals, Double[][] weights){
         double sum;
-        for(int column = 0; column < weights[0].length; column++){
+        for(int row = 0; row < weights.length; row++){
 
             //gets the sum of the last layer's nodes vals times the corresponding/connected weights
             sum = 0.0;
-            for(int row = 0; row < weights.length; row++){
-                sum += last_layer_vals[row] * weights[row][column];
+            for(int column = 0; column < weights[row].length; column++){
+                sum += last_layer_vals[column] * weights[row][column];
             }
 
             //adds the bias to the sum, puts in through the given(in the constructor) activation function and stores it in this.nodes
-            super.nodes[column] = this.activation.activate(sum + this.bias);
+            super.nodes[row] = this.activation.activate(sum + super.biases[row]);
         }
     }
 
