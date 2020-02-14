@@ -20,15 +20,15 @@ public class OutputLayer extends Layers{
     public void calculate_nodes(double[] last_layer_vals, Double[][] weights){
         double sum;
         Double[] temp_nodes_vals = new Double[this.nodes.length];
-        for(int column = 0; column < weights[0].length; column++){
+        for(int row = 0; row < weights.length; row++){
 
             //gets the sum of the last layer's nodes vals times the corresponding/connected weights
             sum = 0.0;
-            for(int row = 0; row < weights.length; row++){
-                sum += last_layer_vals[row] * weights[row][column];
+            for(int column = 0; column < weights[row].length; column++){
+                sum += last_layer_vals[column] * weights[row][column];
             }
             //stores the sum of each node in a temporary Double array
-            temp_nodes_vals[column] = new Double(sum);
+            temp_nodes_vals[row] = new Double(sum);
         }
         //the temporary Double array is put into a activation function(in this case probably softmax),
         //then the output of the activation function is stored in this.nodes/nodes by dumping the temp array into the 
