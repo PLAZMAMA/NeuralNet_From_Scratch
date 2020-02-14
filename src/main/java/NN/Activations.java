@@ -5,4 +5,5 @@ package NN;
 */
 interface Activations <T>{
     public T activate(T x);
+    public T deriv_activate(T x);
 }
