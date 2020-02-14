@@ -9,6 +9,9 @@ public class Dense extends Layers{
     
     //constructor for the Dense class
     Dense(Activations<Double> activation,  int n_nodes){
+        for(int i = 0; i < n_nodes; i++){
+            super.biases[i] = 0.0;
+        }
         super.nodes = new double[n_nodes];
         this.activation = activation;
         super.type = "Dense";
