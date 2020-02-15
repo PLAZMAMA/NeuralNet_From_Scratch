@@ -13,6 +13,6 @@ public class Sigmoid implements Activations<Double>{
     //method for the derivative of the sigmoid function
     public Double deriv_activate(Double x){
         //returns the derivative of the sigmoid function
-        return(this.activate(x) - (1 - this.activate(x)));
+        return(this.activate(x) * (1 - this.activate(x)));
     }
 }
