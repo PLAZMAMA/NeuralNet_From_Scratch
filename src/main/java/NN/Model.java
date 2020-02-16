@@ -38,9 +38,9 @@ public class Model{
     */
     public static Double[][] create_weights(int last_layer_size, int current_layer_size){
         Random r = new Random();
-        Double[][] weights = new Double[last_layer_size][current_layer_size];
-        for(int row = 0; row < last_layer_size; row++){
-            for(int column = 0; column < current_layer_size; column++){
+        Double[][] weights = new Double[current_layer_size][last_layer_size];
+        for(int row = 0; row < current_layer_size; row++){
+            for(int column = 0; column < last_layer_size; column++){
                 weights[row][column] = r.nextGaussian() * Math.sqrt(2.0 / last_layer_size + current_layer_size);
             }
         }
