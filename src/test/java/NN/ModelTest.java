@@ -37,23 +37,11 @@ public class ModelTest{
     @Test
     public void test_constructor(){
         this.model = new Model(this.input, this.dense1, this.dense2, this.output);
-        int[][] expected = {{5, 10}, {10, 5}, {5, 2}};
-        int[][] actual = new int[3][2];
-        Double[][] weights;
-        for(int i = 1; i < this.model.layers.length; i++){
-            weights = this.model.weights.get("layer_" + i);
-            actual[i - 1][0] = weights.length;
-            actual[i - 1][1] = weights[0].length;
-        }
-
-        for(int i = 0; i < actual.length; i++){
-            assertArrayEquals("test " + i + " failed", expected[i], actual[i]);
-        }
     }
 
     @Test
     public void test_create_weights(){
-        int[] expected = {3, 5};
+        int[] expected = {5, 3};
         Double[][] output = Model.create_weights(3, 5);
         int[] actual = {output.length, output[0].length};
         assertArrayEquals("the size of the arrays is incorrect", expected, actual);
