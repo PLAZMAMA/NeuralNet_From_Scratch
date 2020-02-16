@@ -40,4 +40,9 @@ public class DenseTest{
         double[] expected = {0.77206354942678, 0.755838899094, 0.67699585623, 0.81607827258, 0.7109495026250}; //these values havn't been put throught the activation function
         assertArrayEquals("the calculate_nodes method does not work or there is not access to the nodes of dense", expected, this.dense.nodes, 0.0001);
     }
+
+    @Test
+    public void test_type(){
+        assertEquals("Dense", this.dense.type);
+    }
 }
