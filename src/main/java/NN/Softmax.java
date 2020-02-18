@@ -4,7 +4,6 @@ import java.lang.Math;
 public class Softmax implements Activations<Double[]>{
 
     //method for softmax function
-    @Override
     public Double[] activate(Double[] x){
         //initializes all the variables
         double[] exponents = new double[x.length];
@@ -22,5 +21,10 @@ public class Softmax implements Activations<Double[]>{
             result[i] = new Double(exponents[i] / exponents_sum);
         }
         return(result);
+    }
+
+    //method for the derivative of the softmax function
+    public Double[] deriv_activate(Double[] x){
+        //not completed yet
     }
 }
