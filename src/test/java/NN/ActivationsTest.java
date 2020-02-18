@@ -88,6 +88,7 @@ public class ActivationsTest{
     @Test
     public void test_deriv_softmax(){
         Activations<Double[]> act = (Activations<Double[]>) new Softmax();
+        //not completed yet
     }
 
 
