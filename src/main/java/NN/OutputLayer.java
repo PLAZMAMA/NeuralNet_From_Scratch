@@ -6,18 +6,33 @@ import java.lang.Double;
 //class for the output layer of the neural network(only categorical with softmax for simplicity)
 public class OutputLayer extends Layers{
     //instance variables
-    Activations<Double[]> activation;
+    Softmax softmax_activation;
+    Activations<Double> activation;
 
 
 
-    //constructor method for the outputlayer class
-    OutputLayer(Activations<Double[]> activation, int n_nodes){
+    //constructor method for the outputlayer class if a softmax activation is inputed
+    OutputLayer(Softmax activation, int n_nodes){
+        this.softmax_activation = activation;
+        this.init_type_nodes(n_nodes);
+    }
+
+    //constructor metod for the outputlayer class if a other activation is inputed
+    OutputLayer(Activations<Double> activation, int n_nodes){
         this.activation = activation;
+        this.init_type_nodes(n_nodes);
+    }
+
+    /*initializes the nodes with the given nodes size and sets the type of this layer which is used in the model class
+    (created this method to avoid rewriting the same code)
+    */
+    private void init_type_nodes(int n_nodes){
         super.nodes = new double[n_nodes];
         super.type = "Output";
     }
 
-    public void calculate_nodes(double[] last_layer_vals, Double[][] weights){
+    //calculates the nodes of the output layer. Will be used if softmax was passed as the activation function
+    private void calculate_softmax_nodes(double[] last_layer_vals, Double[][] weights){
         double sum;
         Double[] temp_nodes_vals = new Double[this.nodes.length];
         for(int row = 0; row < weights.length; row++){
@@ -27,14 +42,49 @@ public class OutputLayer extends Layers{
             for(int column = 0; column < weights[row].length; column++){
                 sum += last_layer_vals[column] * weights[row][column];
             }
+
             //stores the sum of each node in a temporary Double array
             temp_nodes_vals[row] = new Double(sum);
         }
-        //the temporary Double array is put into a activation function(in this case probably softmax),
-        //then the output of the activation function is stored in this.nodes/nodes by dumping the temp array into the 
-        temp_nodes_vals = this.activation.activate(temp_nodes_vals);
+
+        /*
+        the temporary Double array is put into a activation function(in this case probably softmax),
+        then the output of the activation function is stored in this.nodes/nodes by dumping the temp array into the 
+        */
+        temp_nodes_vals = this.softmax_activation.activate(temp_nodes_vals);
         for(int i = 0; i < temp_nodes_vals.length; i++){
             super.nodes[i] = temp_nodes_vals[i].doubleValue();
+        }
+    }
+
+    //calculates the nodes of the output layer. It will be used if any other activation besides softmax will be used
+    private void calculate_activation_nodes(double[] last_layer_vals, Double[][] weights){
+        double sum = 0;
+
+        //iterates over each nodes of the current layer
+        for(int row = 0; row < weights.length; row++){
+
+            //gets the sum of the weights times the last layer nodes
+            for(int column = 0; column < weights[row].length; column++){
+                sum += weights[row][column] * last_layer_vals[column];
+            }
+
+            //puts the sum throught the activation, dumps it to super.nodes(nodes of the layer) and resets the sum
+            super.nodes[row] = this.activation.activate(sum);
+            sum = 0;
+        }
+    }
+
+    //calculates the nodes of the output layer
+    public void calculate_nodes(double[] last_layer_vals, Double[][] weights){
+        /*
+        checks if the this.activtion is not empty(meaning that the constructor calculate_activation_nodes was used),
+        and calls the appropriate method
+        */
+        if(this.activation != null){
+            this.calculate_activation_nodes(last_layer_vals, weights);
+        }else{
+            this.calculate_softmax_nodes(last_layer_vals, weights);
         }
     }
 
