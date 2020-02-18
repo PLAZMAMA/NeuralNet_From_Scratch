@@ -19,6 +19,6 @@ public class MSE implements Cost{
     //calculates the derivative of the cost function above
     public double deriv_calculate(double output, double label){
         //returning the value of the diffrance of the output to the label times two
-        return(output - label * 2.0);
+        return((output - label) * 2.0);
     }
 }
