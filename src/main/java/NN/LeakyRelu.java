@@ -11,8 +11,7 @@ public class LeakyRelu implements Activations<Double>{
         otherwise it returns the x (given value) times 0.01 then all casted to a Double (class/wrapper of double)
         */
         if (x < 0.0){
-        double temp = x.doubleValue();
-        x = new Double(0.01 * temp);
+        x = new Double(0.01 * x);
         }
         return(x);
     }
@@ -25,10 +24,8 @@ public class LeakyRelu implements Activations<Double>{
         */
         if(x > 0.0){
             return(1.0);
-        }else if(x < 0.0){
-            return(0.01);
-        }else{
-            return(0.5);
         }
+        return(0.01);
+
     }
 }
