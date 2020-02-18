@@ -15,4 +15,10 @@ public class MSE implements Cost{
         //returning the average of the squard diffrence values by dividing the sum by the number of numbers in label or output
         return(sum / output.length);
     }
+
+    //calculates the derivative of the cost function above
+    public double deriv_calculate(double output, double label){
+        //returning the value of the diffrance of the output to the label times two
+        return(output - label * 2.0);
+    }
 }
