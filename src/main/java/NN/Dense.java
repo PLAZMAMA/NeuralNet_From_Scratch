@@ -23,7 +23,7 @@ public class Dense extends Layers{
     it sums up all the given weights and biases, then adds the bias, lastly it puts it through the activation function .
     the function cahnges this.nodes to the nodes with the activation function added
     */
-    public void calculate_nodes(double[] last_layer_vals, Double[][] weights){
+    public void calculate_nodes(double[] last_layer_vals, double[][] weights){
         double sum;
         for(int row = 0; row < weights.length; row++){
 
