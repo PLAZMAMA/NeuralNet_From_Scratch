@@ -5,6 +5,7 @@ abstract class Layers{
     String type;
     double[] nodes;
     double[] biases;
+    Activations activation;
 
     //abstract methods
     public abstract void calculate_nodes(double[] last_layer_vals, double[][] weights);
