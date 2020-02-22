@@ -7,9 +7,6 @@ import java.lang.Double;
 public class OutputLayer extends Layers{
     //instance variables
     Softmax softmax_activation;
-    Activations<Double> activation;
-
-
 
     //constructor method for the outputlayer class if a softmax activation is inputed
     OutputLayer(Softmax activation, int n_nodes){
@@ -19,7 +16,7 @@ public class OutputLayer extends Layers{
 
     //constructor metod for the outputlayer class if a other activation is inputed
     OutputLayer(Activations<Double> activation, int n_nodes){
-        this.activation = activation;
+        super.activation = activation;
         this.init_type_nodes(n_nodes);
     }
 
@@ -70,7 +67,7 @@ public class OutputLayer extends Layers{
             }
 
             //puts the sum throught the activation, dumps it to super.nodes(nodes of the layer) and resets the sum
-            super.nodes[row] = this.activation.activate(sum);
+            super.nodes[row] = super.activation.activate(sum);
             sum = 0;
         }
     }
