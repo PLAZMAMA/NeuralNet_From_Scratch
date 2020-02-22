@@ -7,5 +7,5 @@ abstract class Layers{
     double[] biases;
 
     //abstract methods
-    public abstract void calculate_nodes(double[] last_layer_vals, Double[][] weights);
+    public abstract void calculate_nodes(double[] last_layer_vals, double[][] weights);
 }
