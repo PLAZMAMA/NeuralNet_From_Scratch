@@ -35,7 +35,7 @@ public class DenseTest{
             this.dense.biases[i] = new_biases[i];
         }
         double[] last_layer_vals = {0.5, 0.4, 0.7};
-        Double[][] weights = {{0.2, 0.1, 1.2}, {-0.6, 1.5, 1.0}, {1.8, -1.3, -0.4}, {0.3, 1.2, -0.1}, {0.9, -1.0, 0.1}};
+        double[][] weights = {{0.2, 0.1, 1.2}, {-0.6, 1.5, 1.0}, {1.8, -1.3, -0.4}, {0.3, 1.2, -0.1}, {0.9, -1.0, 0.1}};
         this.dense.calculate_nodes(last_layer_vals, weights);
         double[] expected = {0.77206354942678, 0.755838899094, 0.67699585623, 0.81607827258, 0.7109495026250}; //these values havn't been put throught the activation function
         assertArrayEquals("the calculate_nodes method does not work or there is not access to the nodes of dense", expected, this.dense.nodes, 0.0001);
