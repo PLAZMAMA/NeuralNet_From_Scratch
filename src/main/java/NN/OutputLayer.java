@@ -32,7 +32,7 @@ public class OutputLayer extends Layers{
     }
 
     //calculates the nodes of the output layer. Will be used if softmax was passed as the activation function
-    private void calculate_softmax_nodes(double[] last_layer_vals, Double[][] weights){
+    private void calculate_softmax_nodes(double[] last_layer_vals, double[][] weights){
         double sum;
         Double[] temp_nodes_vals = new Double[this.nodes.length];
         for(int row = 0; row < weights.length; row++){
@@ -58,7 +58,7 @@ public class OutputLayer extends Layers{
     }
 
     //calculates the nodes of the output layer. It will be used if any other activation besides softmax will be used
-    private void calculate_activation_nodes(double[] last_layer_vals, Double[][] weights){
+    private void calculate_activation_nodes(double[] last_layer_vals, double[][] weights){
         double sum = 0;
 
         //iterates over each nodes of the current layer
@@ -76,7 +76,7 @@ public class OutputLayer extends Layers{
     }
 
     //calculates the nodes of the output layer
-    public void calculate_nodes(double[] last_layer_vals, Double[][] weights){
+    public void calculate_nodes(double[] last_layer_vals, double[][] weights){
         /*
         checks if the this.activtion is not empty(meaning that the constructor calculate_activation_nodes was used),
         and calls the appropriate method
