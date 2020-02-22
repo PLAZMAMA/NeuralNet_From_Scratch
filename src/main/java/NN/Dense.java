@@ -6,15 +6,12 @@ import NN.Activations;
 
 //this class creates dense neural net layer
 public class Dense extends Layers{
-    //instance variables
-    Activations<Double> activation;
-    
     //constructor for the Dense class
     Dense(Activations<Double> activation,  int n_nodes){
         super.biases = new double[n_nodes];
         Arrays.fill(super.biases, 0.0);
         super.nodes = new double[n_nodes];
-        this.activation = activation;
+        super.activation = activation;
         super.type = "Dense";
     }
     
@@ -34,7 +31,7 @@ public class Dense extends Layers{
             }
 
             //adds the bias to the sum, puts in through the given(in the constructor) activation function and stores it in this.nodes
-            super.nodes[row] = this.activation.activate(sum + super.biases[row]);
+            super.nodes[row] = super.activation.activate(sum + super.biases[row]);
         }
     }
 
