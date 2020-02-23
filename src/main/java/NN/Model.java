@@ -63,7 +63,19 @@ public class Model{
         
     }
 
-    public double[][] calculate_weights(double[] dc_dal, int layer){
+    //calculates the partial derivative of the weights of a given layer with respet to the cost
+    public double[][] calculate_dc_dws(double[] dc_dal, int layer){
+        double[][] dc_dws = new double[this.weights[layer].length][this.weights[layer][0].length];
+        double z; //the weight * the last node value + the bias
+        
+        //calculating the z and using the chain rule to figure out each dc_dw of the given layer
+        for(int row = 0; row < dc_dws.length; row++){
+            for(int column = 0; column < dc_dws[row].length; column++){
+                z = this.weights[layer][row][column] * this.layers[layer - 1].nodes[column] + this.layers[layer - 1].biases[column];
+                dc_dws[row][column] = dc_dal[row] * this.layers[layer].activation.activate(z) * this.layers[layer - 1].nodes[column];
+            }
+        }
 
+        return(dc_dws);
     }
 }
