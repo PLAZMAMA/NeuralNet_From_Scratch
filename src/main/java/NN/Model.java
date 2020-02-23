@@ -71,11 +71,15 @@ public class Model{
         //calculating the z and using the chain rule to figure out each dc_dw of the given layer
         for(int row = 0; row < dc_dws.length; row++){
             for(int column = 0; column < dc_dws[row].length; column++){
-                z = this.weights[layer][row][column] * this.layers[layer - 1].nodes[column] + this.layers[layer - 1].biases[column];
+                z = this.weights[layer][row][column] * this.layers[layer - 1].nodes[column] + this.layers[layer].biases[column];
                 dc_dws[row][column] = dc_dal[row] * this.layers[layer].activation.activate(z) * this.layers[layer - 1].nodes[column];
             }
         }
 
         return(dc_dws);
+    }
+
+    public double[] calculate_dc_dbs(double[] dc_dal, int layer){
+
     }
 }
