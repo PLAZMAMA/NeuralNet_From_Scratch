@@ -42,6 +42,7 @@ public class OutputLayer extends Layers{
 
             //stores the sum of each node in a temporary Double array
             temp_nodes_vals[row] = new Double(sum);
+            super.biases[row] = 0.0; //adding a bias of zero due to some of the methods in the Model class require having the bias array not empty
         }
 
         /*
@@ -67,7 +68,8 @@ public class OutputLayer extends Layers{
             }
 
             //puts the sum throught the activation, dumps it to super.nodes(nodes of the layer) and resets the sum
-            super.nodes[row] = super.activation.activate(sum);
+            super.biases[row] = 1.0; //initialzing the biass
+            super.nodes[row] = super.activation.activate(sum + super.biases[row]);
             sum = 0;
         }
     }
