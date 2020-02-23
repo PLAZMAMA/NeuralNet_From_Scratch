@@ -92,14 +92,14 @@ public class ModelTest{
         }
 
         //creating the expected and checking if it equals to the actual
-        double[][] actual = this.model.calculate_dc_dws(dc_dal, 4);
+        double[][] actual = this.model.calculate_dc_dws(dc_dal, 3);
         double[][] expected = new double[this.output.nodes.length][this.dense2.nodes.length];
         double z;
         
         for(int row = 0; row < expected.length; row++){
             for(int column = 0; column < expected[row].length; column++){
-                z = this.model.weights[4][row][column] * this.model.layers[3].nodes[column] + this.model.layers[3].biases[column];//the weight * the last activation + the bias
-                expected[row][column] = dc_dal[row] * sig.deriv_activate(z) * this.model.layers[3].nodes[column];
+                z = this.model.weights[3][row][column] * this.model.layers[2].nodes[column] + this.model.layers[2].biases[column];//the weight * the last activation + the bias
+                expected[row][column] = dc_dal[row] * sig.deriv_activate(z) * this.model.layers[2].nodes[column];
             }
         }
         for(int i = 0; i < expected.length; i++){
