@@ -12,12 +12,24 @@ public class OutputLayer extends Layers{
     OutputLayer(Softmax activation, int n_nodes){
         this.softmax_activation = activation;
         this.init_type_nodes(n_nodes);
+
+        //initialzing the biases
+        super.biases = new double[n_nodes];
+        for(int i = 0; i < n_nodes; i++){
+            super.biases[i] = 0.0;
+        }
     }
 
     //constructor metod for the outputlayer class if a other activation is inputed
     OutputLayer(Activations<Double> activation, int n_nodes){
         super.activation = activation;
         this.init_type_nodes(n_nodes);
+
+        //initialzing the biases
+        super.biases = new double[n_nodes];
+        for(int i = 0; i < n_nodes; i++){
+            super.biases[i] = 1.0;
+        }
     }
 
     /*initializes the nodes with the given nodes size and sets the type of this layer which is used in the model class
@@ -42,7 +54,6 @@ public class OutputLayer extends Layers{
 
             //stores the sum of each node in a temporary Double array
             temp_nodes_vals[row] = new Double(sum);
-            super.biases[row] = 0.0; //adding a bias of zero due to some of the methods in the Model class require having the bias array not empty
         }
 
         /*
@@ -68,7 +79,6 @@ public class OutputLayer extends Layers{
             }
 
             //puts the sum throught the activation, dumps it to super.nodes(nodes of the layer) and resets the sum
-            super.biases[row] = 1.0; //initialzing the biass
             super.nodes[row] = super.activation.activate(sum + super.biases[row]);
             sum = 0;
         }
