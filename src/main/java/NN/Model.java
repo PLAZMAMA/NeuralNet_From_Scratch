@@ -1,6 +1,5 @@
 package NN;
 
-import java.util.HashMap;
 import java.util.Random;
 import java.lang.Math;
 
@@ -70,8 +69,15 @@ public class Model{
         
         //calculating the z and using the chain rule to figure out each dc_dw of the given layer
         for(int row = 0; row < dc_dws.length; row++){
+            //calculating z
+            z = 0;
+            for(int i = 0; i < this.weights[layer][row].length; i++){
+                z += this.weights[layer][row][i] * this.layers[layer - 1].nodes[i];
+            }
+            z += this.layers[layer].biases[row];
+
+            //calculating dc_dws
             for(int column = 0; column < dc_dws[row].length; column++){
-                z = this.weights[layer][row][column] * this.layers[layer - 1].nodes[column] + this.layers[layer].biases[column];
                 dc_dws[row][column] = dc_dal[row] * this.layers[layer].activation.activate(z) * this.layers[layer - 1].nodes[column];
             }
         }
@@ -79,7 +85,21 @@ public class Model{
         return(dc_dws);
     }
 
+    //calculates the partial derivative of the biases with respect to the cost function
     public double[] calculate_dc_dbs(double[] dc_dal, int layer){
+        double[] dc_dbs = new double[dc_dal.length];
+        double z;
+        //calculating z and the partial derivatives of dc_db
+        for(int node = 0; node < this.layers[layer].nodes.length; node++){
+            //calculating z
+            z = 0.0;
+            for(int i = 0; i < this.layers[layer - 1].nodes.length; i++){
+                z += this.weights[layer][node][i] * this.layers[layer - 1].nodes[i];
+            }
+            z += this.layers[layer].biases[node];
 
+            dc_dbs[node] = dc_dal[node] * this.layers[layer].activation.deriv_activate(z);
+        }
+        return(dc_dbs);
     }
 }
