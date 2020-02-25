@@ -95,15 +95,62 @@ public class ModelTest{
         double[][] actual = this.model.calculate_dc_dws(dc_dal, 3);
         double[][] expected = new double[this.output.nodes.length][this.dense2.nodes.length];
         double z;
-        
         for(int row = 0; row < expected.length; row++){
+
+            //geting the z
+            z = 0;
+            for(int i = 0; i < this.model.layers[2].nodes.length; i++){
+                z += this.model.weights[3][row][i] * this.model.layers[2].nodes[i];
+            }
+            z += this.model.layers[3].biases[row];
+
+            //getting the expected value
             for(int column = 0; column < expected[row].length; column++){
-                z = this.model.weights[3][row][column] * this.model.layers[2].nodes[column] + this.model.layers[2].biases[column];//the weight * the last activation + the bias
                 expected[row][column] = dc_dal[row] * sig.deriv_activate(z) * this.model.layers[2].nodes[column];
             }
         }
         for(int i = 0; i < expected.length; i++){
             assertArrayEquals("test " + i + " failed", expected[i], actual[i], 0.0001);
         }
+    }
+    
+    @Test
+    public void test_calculate_dc_dbs(){
+        Random r = new Random();
+        MSE mse = new MSE();
+        Sigmoid sig = new Sigmoid();
+        this.output = new OutputLayer(sig, 2);
+        this.model = new Model(this.input, this.dense1, this.dense2, this.output);
+
+         //creating a random label to test against
+         double[] label = new double[this.output.nodes.length];
+         Arrays.fill(label, 0.0);
+         label[r.nextInt(label.length)] = 1.0; //chosing a random label to become 1.0 like a one-hot array
+
+         //calculating the partial derivative of the outputlayer activation with respect to the cost function
+        double[] dc_dal = new double[this.output.nodes.length];
+        for(int i = 0; i < this.output.nodes.length; i++){
+            dc_dal[i] = mse.deriv_calculate(this.output.nodes[i], label[i]);
+        }
+
+        //creating the expected and checking if it equals to the actual
+        double[] actual = this.model.calculate_dc_dbs(dc_dal, 3);
+        double[] expected = new double[this.output.nodes.length];
+        double z;
+
+        //getting the expected and the z
+        for(int node = 0; node < this.model.layers[3].biases.length; node++){
+            //calculating the z
+            z = 0.0;
+            for(int column = 0; column < this.model.weights[3][node].length; column++){
+                z += this.model.weights[3][node][column] * this.model.layers[2].nodes[column];
+            }
+            z += this.model.layers[3].biases[node];
+
+            //calculating the expected
+            expected[node] = dc_dal[node] * sig.deriv_activate(z);
+        }
+
+        assertArrayEquals(expected, actual, 0.0001);
     }
 }
