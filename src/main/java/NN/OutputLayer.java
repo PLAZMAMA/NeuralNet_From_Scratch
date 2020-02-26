@@ -68,7 +68,7 @@ public class OutputLayer extends Layers{
 
     //calculates the nodes of the output layer. It will be used if any other activation besides softmax will be used
     private void calculate_activation_nodes(double[] last_layer_vals, double[][] weights){
-        double sum = 0;
+        double sum = 0.0;
 
         //iterates over each nodes of the current layer
         for(int row = 0; row < weights.length; row++){
@@ -77,10 +77,9 @@ public class OutputLayer extends Layers{
             for(int column = 0; column < weights[row].length; column++){
                 sum += weights[row][column] * last_layer_vals[column];
             }
-
             //puts the sum throught the activation, dumps it to super.nodes(nodes of the layer) and resets the sum
             super.nodes[row] = super.activation.activate(sum + super.biases[row]);
-            sum = 0;
+            sum = 0.0;
         }
     }
 
