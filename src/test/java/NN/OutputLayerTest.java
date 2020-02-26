@@ -29,7 +29,7 @@ public class OutputLayerTest{
         assertArrayEquals("test 1 failed", expected, this.output.nodes, 0.00001);
         Sigmoid sig = new Sigmoid();
         this.output = new OutputLayer(sig, 3);
-        expected = new double[] {0.80059224315, 0.43045377606, 0.80690131576};
+        expected = new double[] {0.9160615681024, 0.672607017067, 0.9190865327};
         this.output.calculate_nodes(last_layer_vals, weights);
         assertArrayEquals("test 2 failed", expected, this.output.nodes, 0.00001);
     }
