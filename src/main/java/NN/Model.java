@@ -2,6 +2,7 @@ package NN;
 
 import java.util.Random;
 import java.lang.Math;
+import java.util.Arrays;
 
 import NN.MSE;
 
@@ -101,5 +102,30 @@ public class Model{
             dc_dbs[node] = dc_dal[node] * this.layers[layer].activation.deriv_activate(z);
         }
         return(dc_dbs);
+    }
+
+    //calculates the partial derivative of the previous activations with respect to the cost function given 
+    public double[] calculate_dc_dpa(double[] dc_dal, int layer){
+        double z = 0.0;
+        double[] dc_dpa = new double[this.layers[layer - 1].nodes.length];
+        Arrays.fill(dc_dpa, 0.0);
+        /*
+        looping on each of the nodes of the given layer (due to the partial derivative of the
+        previous activation is the sum of each partial derivative of the activation with respect to the cost)
+        */
+        for(int node = 0; node < this.layers[layer].nodes.length; node++){
+            //calculating z
+            for(int i = 0; i < this.weights[layer][node].length; i++){
+                z += this.weights[layer][node][i] * this.layers[layer - 1].nodes[i];
+            }
+            z += this.layers[layer].biases[node];
+
+            //calculating the partial derivative of the previous activation throught the current node
+            for(int pa = 0; pa < this.weights[layer][node].length; pa++){
+                dc_dpa[pa] += dc_dal[node] * this.layers[layer].activation.deriv_activate(z) * this.weights[layer][node][pa];
+            }
+        }
+        
+        return(dc_dpa);
     }
 }
