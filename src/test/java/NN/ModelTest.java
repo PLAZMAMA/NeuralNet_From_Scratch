@@ -71,9 +71,12 @@ public class ModelTest{
         this.model = new Model(this.input, this.dense1, this.dense2, this.output);
     }
 
-    @Test
-    public void test_calculate_dc_dws(){
-        //initializing everything that I need
+    /*
+    method for calculating the partial derivative of al with respect to the cost function for a random label, changing
+    the output layer activation into a sigmoid from softmax and the number of nodes
+    (used in test_calculate_dc_dws, test_calculate_dc_dbs and calculate_dc_pa)
+    */
+    private double[] calculate_dc_dal(){
         Random r = new Random();
         MSE mse = new MSE();
         Sigmoid sig = new Sigmoid();
@@ -90,6 +93,15 @@ public class ModelTest{
         for(int i = 0; i < this.output.nodes.length; i++){
             dc_dal[i] = mse.deriv_calculate(this.output.nodes[i], label[i]);
         }
+        return(dc_dal);
+    }
+
+    @Test
+    public void test_calculate_dc_dws(){
+        Sigmoid sig = new Sigmoid(); //initialzing sigmoid due to the derivative being used later
+
+        //getting the partial derivative of al with respect to the cost function for a random label
+        double[] dc_dal = this.calculate_dc_dal();
 
         //creating the expected and checking if it equals to the actual
         double[][] actual = this.model.calculate_dc_dws(dc_dal, 3);
@@ -116,23 +128,11 @@ public class ModelTest{
     
     @Test
     public void test_calculate_dc_dbs(){
-        Random r = new Random();
-        MSE mse = new MSE();
-        Sigmoid sig = new Sigmoid();
-        this.output = new OutputLayer(sig, 2);
-        this.model = new Model(this.input, this.dense1, this.dense2, this.output);
-
-         //creating a random label to test against
-         double[] label = new double[this.output.nodes.length];
-         Arrays.fill(label, 0.0);
-         label[r.nextInt(label.length)] = 1.0; //chosing a random label to become 1.0 like a one-hot array
-
-         //calculating the partial derivative of the outputlayer activation with respect to the cost function
-        double[] dc_dal = new double[this.output.nodes.length];
-        for(int i = 0; i < this.output.nodes.length; i++){
-            dc_dal[i] = mse.deriv_calculate(this.output.nodes[i], label[i]);
-        }
-
+        Sigmoid sig = new Sigmoid(); //initialzing sigmoid due to the derivative being used later
+        
+        //getting the partial derivative of the outputlayer activation with respect to the cost function of a random label
+        double[] dc_dal = this.calculate_dc_dal();
+        
         //creating the expected and checking if it equals to the actual
         double[] actual = this.model.calculate_dc_dbs(dc_dal, 3);
         double[] expected = new double[this.output.nodes.length];
@@ -151,6 +151,31 @@ public class ModelTest{
             expected[node] = dc_dal[node] * sig.deriv_activate(z);
         }
 
+        assertArrayEquals(expected, actual, 0.0001);
+    }
+
+    @Test
+    public void test_calculate_dc_pa(){
+        //getting the partial derivative of the outputlayer activation with respect to the cost function of a random label
+        double[] dc_dal = this.calculate_dc_dal();
+        double z = 0;
+        double[] actual = this.model.calculate_dc_dpa(dc_dal, 3);
+        double[] expected = new double[this.dense2.nodes.length];
+        Arrays.fill(expected, 0.0); //filling the array with zeros since I will have to get the sum of the partial derivatives
+        for(int column = 0; column < this.model.weights[3].length; column++){
+            //calculating z
+            for(int i = 0; i < this.model.weights[3][column].length; i++){
+                z += this.model.weights[3][column][i] * this.model.layers[3].nodes[column];
+            }
+            z += this.model.layers[3].biases[column];
+
+            //calculating dc_dpl(pl = previous layer) by adding up each partial derivative with the next one
+            for(int row = 0; row < this.model.weights[3][column].length; row++){
+                expected[row] += dc_dal[column] * this.model.layers[3].activation.deriv_activate(z) * this.model.weights[3][column][row];
+            }
+        }
+
+        //testing the expected against the actual
         assertArrayEquals(expected, actual, 0.0001);
     }
 }
