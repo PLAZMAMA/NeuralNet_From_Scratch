@@ -26,5 +26,6 @@ public class Softmax implements Activations<Double[]>{
     //method for the derivative of the softmax function
     public Double[] deriv_activate(Double[] x){
         //not completed yet
+        return(x);
     }
 }
