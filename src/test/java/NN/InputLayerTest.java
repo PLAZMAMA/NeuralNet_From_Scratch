@@ -15,7 +15,8 @@ public class InputLayerTest{
     @Before
     public void init(){
         double[] inpt = {1.0, 3.0, 0.8, 0.3, 0.6};
-        this.input = new InputLayer(inpt);
+        this.input = new InputLayer(5);
+        this.input.nodes = inpt;
     }
 
     @Test
