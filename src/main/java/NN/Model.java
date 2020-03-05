@@ -51,6 +51,54 @@ public class Model{
         return(weights);
     }
 
+    public double[] predict(double[] x){
+        //checking if the data that is given is equal in length to the input layer(if the length of x matches the input shape)
+        if(layers[0].nodes.length != x.length){
+            System.out.println("input shape miss matched: expected an array of size " + this.layers[0].nodes.length + " but got " + x.length);
+        }
+        this.layers[0].nodes = x;
+        this.feed_forward();
+        return(this.layers[this.layers.length - 1].nodes);
+    }
+
+    //this method trains the neural network(aka model)
+    public void train(double[][] x, double[][] y, int batch_size, int epochs, double learning_rate){
+        double[] output = new double[y.length];
+        double[] average = new double[y.length];
+        //itterates over each epoch
+        for(int epoch = 0; epoch < epochs; epoch++){
+
+            //itterates over each batch
+            for(int batch_i = 0; batch_i < x.length; batch_i += batch_size){
+
+                //filling the average  zeros
+                Arrays.fill(average, 0.0);
+
+                //itterates over each input and gets the sum of each input's dc_dal(partial derivative of al(each output node) with respect to the cost)
+                for(int input = batch_i; input < batch_i + batch_size; input++){
+                    output = this.predict(x[input]);
+
+                    //takes the output, get dc_dal of that output and adds it to the average
+                    for(int al = 0; al < y.length; al++){
+                        average[al] += this.cost.deriv_calculate(output[al], y[input][al]);
+                    }
+                }
+                //averages the sum of by dividing each output by the batch size
+                for(int i = 0; i < average.length; i++){
+                    average[i] /= batch_size;
+                }
+
+                //backpropagating the average dc_dal
+                this.back_propagate(average, learning_rate);
+            }
+
+            //printing the cost of the last training input and epoch progress
+            System.out.println("Epoch " + epoch + "/" + epochs + "    loss: " + this.cost.calculate_cost(this.layers[layers.length - 1].nodes, y[y.length - 1]));
+        }
+    }
+
+
+
     //calculates each layer's (beside the input layer since it just the data technically) nodes in sequetial order from the first (not counting the input) to the output
     public void feed_forward(){
         for(int i = 1; i < this.layers.length; i++){
@@ -59,8 +107,32 @@ public class Model{
     }
 
     //this method will change the weights and biases based on the loss of the cost function
-    public void back_propagate(double output, double label){
-        
+    public void back_propagate(double[] dc_dal, double learning_rate){
+        double[][] dc_dws;
+        double[] dc_dbs;
+        for(int layer = this.layers.length - 1; layer > 0; layer--){
+            //calculating the partial derivative of the weights of the layer with respect to the cost
+            dc_dws = this.calculate_dc_dws(dc_dal, layer);
+
+            //calculating the partial derivative of the biases of the layer with respect to the cost
+            dc_dbs = this.calculate_dc_dbs(dc_dal, layer);
+
+            //calculating the partial derivative of the previous activation of the layer with respect to the cost if its not the first dense layers
+            if(layer > 1){
+                dc_dal = this.calculate_dc_dpa(dc_dal, layer);
+            }
+
+            //updating the weights and biases with the given learning rate
+            for(int node = 0; node < this.layers[layer].nodes.length; node++){
+                //updating the weights
+                for(int weight = 0; weight < this.weights[layer][node].length; weight++){
+                    this.weights[layer][node][weight] -= learning_rate * dc_dws[node][weight];
+                }
+
+                //updating the biases
+                this.layers[layer].biases[node] -= learning_rate * dc_dbs[node];
+            }
+        }
     }
 
     //calculates the partial derivative of the weights of a given layer with respet to the cost
@@ -79,7 +151,7 @@ public class Model{
 
             //calculating dc_dws
             for(int column = 0; column < dc_dws[row].length; column++){
-                dc_dws[row][column] = dc_dal[row] * this.layers[layer].activation.activate(z) * this.layers[layer - 1].nodes[column];
+                dc_dws[row][column] = dc_dal[row] * this.layers[layer].activation.deriv_activate(z) * this.layers[layer - 1].nodes[column];
             }
         }
 
@@ -125,7 +197,7 @@ public class Model{
                 dc_dpa[pa] += dc_dal[node] * this.layers[layer].activation.deriv_activate(z) * this.weights[layer][node][pa];
             }
         }
-        
+
         return(dc_dpa);
     }
 }
