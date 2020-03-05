@@ -7,11 +7,8 @@ package NN;
 */
 public class InputLayer extends Layers{
 
-    InputLayer(double[] input){
-        super.nodes = new double[input.length];
-        for(int i = 0; i < input.length; i++){
-            super.nodes[i] = input[i];
-        }
+    InputLayer(int n_nodes){
+        super.nodes = new double[n_nodes];
         super.type = "Input";
     }
 
