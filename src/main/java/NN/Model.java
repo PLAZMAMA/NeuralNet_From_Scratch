@@ -143,7 +143,7 @@ public class Model{
         //calculating the z and using the chain rule to figure out each dc_dw of the given layer
         for(int row = 0; row < dc_dws.length; row++){
             //calculating z
-            z = 0;
+            z = 0.0;
             for(int i = 0; i < this.weights[layer][row].length; i++){
                 z += this.weights[layer][row][i] * this.layers[layer - 1].nodes[i];
             }
@@ -196,6 +196,7 @@ public class Model{
             for(int pa = 0; pa < this.weights[layer][node].length; pa++){
                 dc_dpa[pa] += dc_dal[node] * this.layers[layer].activation.deriv_activate(z) * this.weights[layer][node][pa];
             }
+            z = 0.0;
         }
 
         return(dc_dpa);
