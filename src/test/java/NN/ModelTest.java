@@ -265,7 +265,7 @@ public class ModelTest{
     public void test_calculate_dc_pa(){
         //getting the partial derivative of the outputlayer activation with respect to the cost function of a random label
         double[] dc_dal = this.calculate_dc_dal();
-        double z = 0;
+        double z = 0.0;
         double[] actual = this.model.calculate_dc_dpa(dc_dal, 3);
         double[] expected = new double[this.dense2.nodes.length];
         Arrays.fill(expected, 0.0); //filling the array with zeros since I will have to get the sum of the partial derivatives
