@@ -1,6 +1,7 @@
 package NN;
 
 import java.util.Random;
+
 import java.lang.Math;
 import java.util.Arrays;
 
@@ -63,26 +64,26 @@ public class Model{
 
     //this method trains the neural network(aka model)
     public void train(double[][] x, double[][] y, int batch_size, int epochs, double learning_rate){
-        double[] output = new double[y.length];
-        double[] average = new double[y.length];
+        double[] output = new double[x.length];
+        double[] average = new double[x.length];
+        int batches = (int) Math.ceil(x.length / (double) batch_size);
+        int batch_indx = 0;
         //itterates over each epoch
         for(int epoch = 0; epoch < epochs; epoch++){
 
             //itterates over each batch
-            for(int batch_i = 0; batch_i < x.length; batch_i += batch_size){
-
-                //filling the average  zeros
+            for(int batch = 0; batch < batches; batch++){
                 Arrays.fill(average, 0.0);
-
-                //itterates over each input and gets the sum of each input's dc_dal(partial derivative of al(each output node) with respect to the cost)
-                for(int input = batch_i; input < batch_i + batch_size; input++){
-                    output = this.predict(x[input]);
+                while(batch_indx < batch_indx + batch_size && batch_indx < x.length){
+                    output = this.predict(x[batch_indx]);
 
                     //takes the output, get dc_dal of that output and adds it to the average
-                    for(int al = 0; al < y.length; al++){
-                        average[al] += this.cost.deriv_calculate(output[al], y[input][al]);
+                    for(int al = 0; al < y[0].length; al++){
+                        average[al] += this.cost.deriv_calculate(output[al], y[batch_indx][al]);
                     }
+                    batch_indx++;
                 }
+
                 //averages the sum of by dividing each output by the batch size
                 for(int i = 0; i < average.length; i++){
                     average[i] /= batch_size;
