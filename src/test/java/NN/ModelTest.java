@@ -70,31 +70,43 @@ public class ModelTest{
     public void test_train(){
         double[][] x_train = {{5.1,3.5,1.4,0.2}, {5.9,3.0,5.1,1.8}, {6.7,3.0,5.0,1.7}, {5.7,2.6,3.5,1.0}, {7.7,3.0,6.1,2.3}, {4.9,3.0,1.4,0.2}, {6.7,3.3,5.7,2.5}, {4.7,3.2,1.3,0.2}, {5.5,2.5,4.0,1.3}, {4.6,3.1,1.5,0.2}, {6.5,3.0,5.2,2.0}};
         double[][] y_train = {{1.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 1.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 1.0}};
-        double[] x_test = {6.8,2.8,4.8,1.4};
-        double[] y_test = {0.0, 0.0, 1.0};
+        double[][] x_test = {{6.8,2.8,4.8,1.4}, {6.7,3.1,4.4,1.4}, {5.4,3.4,1.7,0.2}};
+        double[][] y_test = {{0.0, 0.0, 1.0}, {0.0, 1.0, 0.0}, {1.0, 0.0, 0.0}};
         
         //changing the model for simplicity and to avoid the vanishing gradient problem
         MSE mse = new MSE();
-        Relu relu = new Relu();
         Sigmoid sig = new Sigmoid();
         this.input = new InputLayer(4);
-        this.dense1 = new Dense(relu, 8);
-        this.dense2 = new Dense(relu, 5);
+        this.dense1 = new Dense(sig, 8);
+        this.dense2 = new Dense(sig, 5);
         this.output = new OutputLayer(sig, 3);
         this.model = new Model(this.input, this.dense1, this.dense2, this.output);
-
-        //getting the initial cost for the test data
-        double[] prediction = this.model.predict(x_test);
-        double initial_cost = mse.calculate_cost(prediction, y_test);
+        
+        double[] prediction;
+        //getting the initial accuracy for the test data
+        double initial_accuracy = 0.0;
+        for(int data = 0; data < x_test.length; data++){
+            prediction = this.model.predict(x_test[data]);
+            initial_accuracy += mse.calculate_cost(prediction, y_test[data]);
+        }
+        //getting the average initial accuracy
+        initial_accuracy /= x_test.length;
 
         //training the model on the data
-        this.model.train(x_train, y_train, 2, 2, 0.01);
+        this.model.train(x_train, y_train, 2, 10, 0.1);
 
-        //checking if the new cost is smaller than the initial cost
-        prediction = this.model.predict(x_test);
-        double new_cost = mse.calculate_cost(prediction, y_test);
+        //getting the new accuracy
+        double new_accuracy = 0.0;
+        for(int data = 0; data < x_test.length; data++){
+            prediction = this.model.predict(x_test[data]);
+            new_accuracy += mse.calculate_cost(prediction, y_test[data]);
+        }
+        //getting the average new accuracy
+        new_accuracy /= x_test.length;
 
-        assertTrue(new_cost < initial_cost);
+        //checking if the new accuracy is smaller than the initial cost
+        assertTrue("new_accuracy: " + new_accuracy + " initial_accuracy: " + initial_accuracy, new_accuracy < initial_accuracy);
+        
     }
 
     //just an integration test due to the function just beign calls to the layers functions
