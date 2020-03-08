@@ -67,16 +67,16 @@ public class Model{
         double[] output = new double[x.length];
         double[] average = new double[x.length];
         int batches = (int) Math.ceil(x.length / (double) batch_size);
-        int batch_indx = 0;
+        int batch_indx;
         //itterates over each epoch
         for(int epoch = 0; epoch < epochs; epoch++){
-
+            batch_indx = 0;
             //itterates over each batch
             for(int batch = 0; batch < batches; batch++){
                 Arrays.fill(average, 0.0);
+
                 while(batch_indx < batch_indx + batch_size && batch_indx < x.length){
                     output = this.predict(x[batch_indx]);
-
                     //takes the output, get dc_dal of that output and adds it to the average
                     for(int al = 0; al < y[0].length; al++){
                         average[al] += this.cost.deriv_calculate(output[al], y[batch_indx][al]);
@@ -86,15 +86,15 @@ public class Model{
 
                 //averages the sum of by dividing each output by the batch size
                 for(int i = 0; i < average.length; i++){
-                    average[i] /= batch_size;
                 }
+                
 
                 //backpropagating the average dc_dal
                 this.back_propagate(average, learning_rate);
             }
 
             //printing the cost of the last training input and epoch progress
-            System.out.println("Epoch " + epoch + "/" + epochs + "    loss: " + this.cost.calculate_cost(this.layers[layers.length - 1].nodes, y[y.length - 1]));
+            System.out.println("Epoch " + (epoch + 1) + "/" + epochs + "    loss: " + this.cost.calculate_cost(this.layers[layers.length - 1].nodes, y[y.length - 1]));
         }
     }
 
