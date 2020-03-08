@@ -8,3 +8,6 @@ Dense1(used sigmoid for activation),
 Dense2(used sigmoid for activation), 
 Output(used sigmoid for activation)).
 This network was able to train and improve, althought not as much as can be done with more data.The test has small ammount of data due to not wanting to write a slow and heavy test that requires a lot of computation and memory.
+
+
+![alt text]()
